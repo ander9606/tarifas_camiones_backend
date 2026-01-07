@@ -9,17 +9,19 @@ import tarifaRoutes from './src/routes/TarifasRoutes.js'
 
 const app = express()
 
-// Configurar CORS para producción
+// Configurar CORS con lista blanca de orígenes
 const allowedOrigins = [
-  'http://localhost:5173', // Desarrollo local
+  'http://localhost:5173',
   'http://localhost:3000',
-  process.env.FRONTEND_PAGE // URL del frontend en producción (Vercel)
-].filter(Boolean)
+  'https://tarifas-camiones-frontend.vercel.app'
+]
 
-console.log('🔒 CORS allowedOrigins:', allowedOrigins)
-
-// CORS permisivo para debug
-app.use(cors())
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
 
 app.use(express.json())
 
