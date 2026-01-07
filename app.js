@@ -13,11 +13,14 @@ const app = express()
 const allowedOrigins = [
   'http://localhost:5173', // Desarrollo local
   'http://localhost:3000',
-  process.env.FRONTEND_URL // URL del frontend en producción (Vercel)
+  process.env.FRONTEND_PAGE // URL del frontend en producción (Vercel)
 ].filter(Boolean)
+
+console.log('🔒 CORS allowedOrigins:', allowedOrigins)
 
 app.use(cors({
   origin: (origin, callback) => {
+    console.log('📍 Solicitud desde origen:', origin)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true)
     } else {

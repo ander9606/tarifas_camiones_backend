@@ -18,5 +18,5 @@ services:
         sync: false
       - key: DB_PORT
         sync: false
-      - key: FRONTEND_URL
+      - key: FRONTEND_PAGE
         sync: false
