@@ -18,17 +18,8 @@ const allowedOrigins = [
 
 console.log('🔒 CORS allowedOrigins:', allowedOrigins)
 
-app.use(cors({
-  origin: (origin, callback) => {
-    console.log('📍 Solicitud desde origen:', origin)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('CORS no permitido'))
-    }
-  },
-  credentials: true
-}))
+// CORS permisivo para debug
+app.use(cors())
 
 app.use(express.json())
 
