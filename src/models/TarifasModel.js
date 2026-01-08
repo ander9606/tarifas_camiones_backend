@@ -5,19 +5,25 @@ export const TarifaModel = {
     const [rows] = await pool.query(
       `SELECT 
          tt.id,
+         tt.tipo_camion_id,
+         tt.ciudad_id,
          t.nombre AS camion,
+         t.descripcion,
          tt.tarifa
        FROM tarifas_transporte tt
        JOIN tipos_camion t ON t.id = tt.tipo_camion_id
-       WHERE tt.ciudad_id = ?`,
+       WHERE tt.ciudad_id = ?
+       ORDER BY t.nombre ASC`,
       [ciudadId]
     )
-    console.log('Raw rows:', rows)
     const result = rows.map(row => ({
-      ...row,
+      id: row.id,
+      tipo_camion_id: row.tipo_camion_id,
+      ciudad_id: row.ciudad_id,
+      camion: row.camion,
+      descripcion: row.descripcion,
       tarifa: parseFloat(row.tarifa)
     }))
-    console.log('Resultado mapeado:', result)
     return result
   },
 
