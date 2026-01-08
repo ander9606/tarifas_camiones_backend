@@ -26,7 +26,13 @@ export const crearTarifa = async (req, res) => {
   
   try {
     const id = await TarifaModel.crear(ciudadId, tipoCamionId, tarifa)
-    res.status(201).json({ id })
+    res.status(201).json({ 
+      id,
+      ciudadId,
+      tipoCamionId,
+      tarifa: Number(tarifa),
+      mensaje: 'Tarifa creada exitosamente'
+    })
   } catch (error) {
     console.error('Error al crear tarifa:', error)
     res.status(500).json({
@@ -38,9 +44,31 @@ export const crearTarifa = async (req, res) => {
 
 export const actualizarTarifa = async (req, res) => {
   const { id } = req.params
-  const { tarifa } = req.body
-  await TarifaModel.actualizar(id, tarifa)
-  res.json({ mensaje: 'Tarifa actualizada' })
+  const { ciudadId, tipoCamionId, tarifa } = req.body
+  
+  // Validar que tarifa sea un número válido
+  if (tarifa === undefined || tarifa === null || isNaN(tarifa) || Number(tarifa) <= 0) {
+    return res.status(400).json({
+      error: 'La tarifa debe ser un número mayor a 0'
+    })
+  }
+  
+  try {
+    await TarifaModel.actualizar(id, tarifa)
+    res.json({ 
+      id,
+      ciudadId,
+      tipoCamionId,
+      tarifa: Number(tarifa),
+      mensaje: 'Tarifa actualizada exitosamente'
+    })
+  } catch (error) {
+    console.error('Error al actualizar tarifa:', error)
+    res.status(500).json({
+      error: 'Error al actualizar la tarifa',
+      detalle: error.message
+    })
+  }
 }
 
 export const eliminarTarifa = async (req, res) => {
