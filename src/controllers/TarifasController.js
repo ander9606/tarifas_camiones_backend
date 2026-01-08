@@ -28,8 +28,8 @@ export const crearTarifa = async (req, res) => {
     const id = await TarifaModel.crear(ciudadId, tipoCamionId, tarifa)
     res.status(201).json({ 
       id,
-      ciudadId,
-      tipoCamionId,
+      ciudad_id: ciudadId,
+      tipo_camion_id: tipoCamionId,
       tarifa: Number(tarifa),
       mensaje: 'Tarifa creada exitosamente'
     })
@@ -57,8 +57,8 @@ export const actualizarTarifa = async (req, res) => {
     await TarifaModel.actualizar(id, tarifa)
     res.json({ 
       id,
-      ciudadId,
-      tipoCamionId,
+      ciudad_id: ciudadId,
+      tipo_camion_id: tipoCamionId,
       tarifa: Number(tarifa),
       mensaje: 'Tarifa actualizada exitosamente'
     })
